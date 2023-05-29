@@ -3,7 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def setup
-    @base_title = "Ruby on Rails Tutorial Sample App"
+    @base_title = "Gimbarr"
   end
 
   test "should get new" do
