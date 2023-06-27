@@ -16,6 +16,8 @@ gem "puma",            "5.6.4"
 gem "bootsnap",        "1.12.0", require: false
 gem 'byebug', '~> 11.1', '>= 11.1.3'
 gem "pry-rails"
+gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+gem 'slack-ruby-client'
 
 group :development, :test do
   gem "sqlite3", "1.4.2"
