@@ -2,7 +2,9 @@ require 'pry'
 
 class SessionsController < ApplicationController
   def new
-    # binding.pry
+    if logged_in?
+      redirect_to root_path, status: :see_other
+    end
   end
 
   def create
@@ -22,6 +24,12 @@ class SessionsController < ApplicationController
     render 'new', status: :unprocessable_entity
     end
   end
+
+  # def show
+    
+  #     user = User.find_by(email: params[:session][:email].downcase)
+    
+  # end
 
   def destroy
     log_out
