@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   get    "/login",   to: "sessions#new"
   post   "/login",   to: "sessions#create"
   delete "/logout",  to: "sessions#destroy"
+  get "/user_not_found", to: "users#user_not_found"
   resources :users
 end
