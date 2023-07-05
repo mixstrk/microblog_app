@@ -17,6 +17,13 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "#{@base_title}"
   end
 
+  test "don't display on the home page signup button when user logged in" do
+    log_in_as(users(:maxim))
+    assert is_logged_in?
+    get root_path
+    assert_select "a[href=?]", signup_path, count: 0
+  end
+
   test "should get help" do
     get help_path
     assert_response :success
