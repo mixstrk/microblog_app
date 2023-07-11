@@ -13,6 +13,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Sign up | Gimbarr"
   end
 
+  test "should redirect new when logged in" do
+    log_in_as(@user)
+    get new_user_path
+    assert_redirected_to root_path
+  end
+
+  test "should not redirect new when not logged in" do
+    get new_user_path
+    assert_template "users/new"
+  end
+
   test "should redirect edit when not logged in" do
     get edit_user_path(@user)
     assert_not flash.empty?

@@ -11,20 +11,24 @@ class UsersController < ApplicationController
   end
 
   def show
-    # begin
+    begin
       @user = User.find(params[:id])
       redirect_to root_url and return unless @user.activated?
-    # rescue ActiveRecord::RecordNotFound
-      # redirect_to user_not_found_url
-    # end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to user_not_found_url
+    end
   end
 
   def new
-    @user = User.new
+    if logged_in?
+      redirect_to root_path
+    else
+      @user = User.new
+    end
   end
 
   def create
-    @user = User.new(user_params)   
+    @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
