@@ -10,29 +10,28 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
-      forwarding_url = session[:forwarding_url]
-      # binding.pry
-      reset_session
-      remember user
-      log_in user
-      redirect_to forwarding_url || user
-      
+      if user.activated?
+        forwarding_url = session[:forwarding_url]
+        reset_session
+        remember user
+        log_in user
+        redirect_to forwarding_url || user
+      else
+        message = "Account not activated. "
+        message += "Check your email for the activation link."
+        flash[:warning] = message
+        redirect_to root_path
+      end
       # Log the user in and redirect to the user's show page.
     else
       # Create an error message
       flash.now[:danger] = 'Invalid email/password combination'
-    render 'new', status: :unprocessable_entity
+      render 'new', status: :unprocessable_entity
     end
   end
 
-  # def show
-    
-  #     user = User.find_by(email: params[:session][:email].downcase)
-    
-  # end
-
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to root_url, status: :see_other
   end
 end
