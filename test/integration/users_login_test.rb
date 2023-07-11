@@ -29,8 +29,13 @@ class ValidLogin < UsersLogin
 
   def setup
     super
-    post login_path, params: { session: { email:    @user.email,
-                                          password: 'password' } }
+    post login_path, params: 
+    { 
+      session: 
+      { email: @user.email,
+        password: 'password' 
+      } 
+    }
   end
 end
 
@@ -71,5 +76,18 @@ class LogoutTest < Logout
     assert_select "a[href=?]", login_path
     assert_select "a[href=?]", logout_path,      count: 0
     assert_select "a[href=?]", user_path(@user), count: 0
+  end
+
+  test "should still work after logout in second window" do
+    delete logout_path
+    assert_redirected_to root_url
+  end
+end
+
+class RememberingTest < UsersLogin
+
+  test "check that login remembering" do
+    log_in_as(@user)
+    assert_not cookies[:remember_token].blank?
   end
 end
