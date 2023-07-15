@@ -4,6 +4,7 @@ class PasswordResets < ActionDispatch::IntegrationTest
   
   def setup
     ActionMailer::Base.deliveries.clear
+    @user = users(:maxim)
   end
 end
 
@@ -125,7 +126,7 @@ class PaswordUpdateTest < PasswordResetForm
   end
 end
 
-class ExpiredToken < PasswordResetForm
+class ExpiredToken < PasswordResets
 
   def setup
     super
